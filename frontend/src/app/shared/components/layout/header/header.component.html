@@ -1,0 +1,33 @@
+<header>
+  <div class="container">
+    <nav class="navbar">
+      <a routerLink="/" class="logo">
+        <i class="fas fa-blog"></i> Blogy
+      </a>
+
+      <ul class="nav-links">
+        <li><a routerLink="/">Accueil</a></li>
+        <li><a routerLink="/articles">Articles</a></li>
+        <li><a href="#">Catégories</a></li>
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+
+      <div class="user-actions" *ngIf="auth.isLoggedIn(); else notLoggedIn">
+        <button class="btn btn-outline" routerLink="/articles/new">Écrire</button>
+        <div class="avatar" (click)="toggleDropdown()">
+          {{ getInitials(auth.getCurrentUser()?.firstName + ' ' + auth.getCurrentUser()?.lastName) }}
+        </div>
+        <div class="dropdown" *ngIf="showDropdown">
+          <a href="#" (click)="logout()">Déconnexion</a>
+        </div>
+      </div>
+      <ng-template #notLoggedIn>
+        <div class="user-actions">
+          <button class="btn btn-outline" routerLink="/auth/login">Se connecter</button>
+          <button class="btn btn-primary" routerLink="/auth/register">S'inscrire</button>
+        </div>
+      </ng-template>
+    </nav>
+  </div>
+</header>

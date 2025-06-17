@@ -1,0 +1,101 @@
+<div class="content">
+  <div class="page-header">
+    <h1><i class="fas fa-user-tag"></i> Gestion des rôles</h1>
+    <button class="btn btn-primary">
+      <i class="fas fa-plus"></i> Ajouter un nouvel utilisateur
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <i class="fas fa-spinner fa-spin"></i> Chargement des utilisateurs...
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <div class="card" *ngIf="!loading && !error">
+    <div class="card-header">
+      <h2>Rôles des utilisateurs</h2>
+      <div class="search-container">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Rechercher des utilisateurs...">
+      </div>
+    </div>
+
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Utilisateur</th>
+            <th>Email</th>
+            <th>Rôle actuel</th>
+            <th>Nouveau rôle</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users">
+            <td>
+              <div class="user-info">
+                <div class="user-avatar">{{ getInitials(user.firstName + ' ' + user.lastName) }}</div>
+                <div>
+                  <div>{{ user.firstName }} {{ user.lastName }}</div>
+                  <div class="username">{{ user.username }}</div>
+                </div>
+              </div>
+            </td>
+            <td>{{ user.email }}</td>
+            <td>
+              <span class="badge" [ngClass]="getRoleBadgeClass(user.role)">
+                {{ getRoleBadgeLabel(user.role) }}
+              </span>
+            </td>
+            <td>
+              <select class="role-select" [(ngModel)]="user.role">
+                <option *ngFor="let role of roleOptions" [value]="role.value">
+                  {{ role.label }}
+                </option>
+              </select>
+            </td>
+            <td>
+              <span class="status-active">
+                <i class="fas fa-circle"></i> Actif
+              </span>
+            </td>
+            <td class="actions-cell">
+              <button class="btn btn-primary btn-sm" (click)="updateUserRole(user)"
+                [disabled]="saving && savingUserId === user._id">
+                <span *ngIf="!(saving && savingUserId === user._id)">
+                  <i class="fas fa-save"></i> Enregistrer
+                </span>
+                <span *ngIf="saving && savingUserId === user._id">
+                  <i class="fas fa-spinner fa-spin"></i> Enregistrement...
+                </span>
+              </button>
+              <button class="btn btn-outline btn-sm">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <div class="chart-header">
+      <h2>Répartition des rôles</h2>
+      <select class="role-select">
+        <option>7 derniers jours</option>
+        <option>30 derniers jours</option>
+        <option>90 derniers jours</option>
+      </select>
+    </div>
+
+    <div class="chart-wrapper">
+      <canvas id="roleChart"></canvas>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="card article-card" *ngIf="article">
+  <div class="article-image" [style.backgroundImage]="'url(' + getImageUrl(article.image) + ')'">
+
+    <div class="article-tags">
+      <span *ngFor="let tag of article.tags" class="tag" [ngClass]="getTagClass(tag)">
+        {{ tag }}
+      </span>
+    </div>
+  </div>
+
+  <div class="article-content">
+    <h3>{{ article.title }}</h3>
+    <p>{{  (article.content | slice:0:150) + '...' }}</p>
+
+    <div class="article-meta">
+      <div class="author-avatar">
+        {{ article.author.firstName!.charAt(0) }}{{ article.author.lastName!.charAt(0) }}
+      </div>
+      <div class="author-info">
+        <div class="author-name">
+          {{ article.author.firstName }} {{ article.author.lastName }}
+        </div>
+        <div class="article-date">
+          {{ article.createdAt | date:'dd MMM yyyy' }} · 5 min de lecture
+        </div>
+      </div>
+    </div>
+
+    <div class="article-actions" *ngIf="showActions">
+      <button *ngIf="canEdit()" class="btn btn-outline btn-sm" (click)="editArticle()">
+        <i class="fas fa-edit"></i> Modifier
+      </button>
+
+      <button *ngIf="canDelete()" class="btn btn-outline btn-sm btn-danger" (click)="deleteArticle()">
+        <i class="fas fa-trash"></i> Supprimer
+      </button>
+    </div>
+  </div>
+</div>

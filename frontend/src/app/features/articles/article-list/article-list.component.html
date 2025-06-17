@@ -1,0 +1,43 @@
+<section class="container">
+  <div class="page-header">
+    <h1>Articles</h1>
+  </div>
+
+  <div class="filter-section">
+    <div class="search-container">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Rechercher des articles..." [(ngModel)]="searchQuery"
+        (ngModelChange)="filterArticles()" aria-label="Recherche d'articles" />
+    </div>
+
+    <div class="tags-filter">
+      <select [(ngModel)]="selectedTag" (change)="filterArticles()" aria-label="Filtrer par tag">
+        <option value="">Tous les tags</option>
+        <option *ngFor="let tag of getUniqueTags()" [value]="tag">
+          {{ tag }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <i class="fas fa-spinner fa-spin"></i> Chargement des articles...
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <ng-container *ngIf="!loading && !error">
+    <div *ngIf="filteredArticles.length === 0" class="no-results">
+      <i class="fas fa-file-alt"></i>
+      <h3>Aucun article trouvé</h3>
+      <p>Essayez de modifier votre recherche ou créez un nouvel article</p>
+    </div>
+
+    <div class="articles-grid">
+      <app-article-card *ngFor="let article of filteredArticles; trackBy: trackById" [article]="article"
+        [showActions]="true"></app-article-card>
+    </div>
+  </ng-container>
+</section>

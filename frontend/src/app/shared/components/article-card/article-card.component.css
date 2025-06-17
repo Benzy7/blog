@@ -1,0 +1,134 @@
+.article-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.article-image {
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.article-tags {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.tag {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: white;
+}
+
+.tag-technology {
+  background: #4361ee;
+}
+
+.tag-design {
+  background: #f72585;
+}
+
+.tag-business {
+  background: #2ec4b6;
+}
+
+.tag-health {
+  background: #4cc9f0;
+}
+
+.tag-lifestyle {
+  background: #ff9f1c;
+}
+
+.tag-default {
+  background: #6c757d;
+}
+
+.article-content {
+  padding: 25px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.article-content h3 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.article-content h3:hover {
+  color: var(--primary);
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.author-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-right: 12px;
+  cursor: pointer;
+}
+
+.author-info {
+  flex-grow: 1;
+}
+
+.author-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.author-name:hover {
+  color: var(--primary);
+}
+
+.article-date {
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
+.article-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+.btn-danger {
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  background: var(--danger);
+  color: white;
+}

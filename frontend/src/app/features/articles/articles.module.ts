@@ -5,12 +5,14 @@ import { ArticlesRoutingModule } from './articles-routing.module';
 import { ArticleListComponent } from './article-list/article-list.component';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
 import { SharedModule } from '../../shared/shared.module';
+import { ArticleViewComponent } from './article-view/article-view.component';
 
 
 @NgModule({
   declarations: [
     ArticleListComponent,
-    ArticleEditorComponent
+    ArticleEditorComponent,
+    ArticleViewComponent
   ],
   imports: [
     CommonModule,

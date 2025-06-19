@@ -1,0 +1,13 @@
+<div class="comments-section">
+  <h3>Commentaires ({{ comments.length }})</h3>
+
+  <div class="new-comment">
+    <textarea [(ngModel)]="newComment" placeholder="écrire un commentaire..."></textarea>
+    <button (click)="addComment()">Commenter</button>
+  </div>
+
+  <div class="comments-tree">
+    <app-article-comment *ngFor="let comment of comments" [comment]="comment" [articleId]="articleId">
+    </app-article-comment>
+  </div>
+</div>

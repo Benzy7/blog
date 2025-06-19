@@ -14,11 +14,11 @@ interface PaginatedResponse {
   providedIn: 'root'
 })
 export class ArticleService {
-  private apiUrl = environment.apiUrls.article;
+  private readonly apiUrl = environment.apiUrls.article;
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
-  getArticles(page = 1, limit = 10): Observable<Article[]> {
+  getArticles(page = 1, limit = 9): Observable<Article[]> {
     return this.http
       .get<PaginatedResponse>(`${this.apiUrl}?page=${page}&limit=${limit}`)
       .pipe(map(res => res.articles));

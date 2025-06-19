@@ -5,5 +5,5 @@ export const environment = {
     user: 'http://localhost:3001/api/users',
     article: 'http://localhost:3002/api/articles'
   },
-  socketUrl: 'http://localhost:3002'
+  socketUrl: 'http://localhost:3003'
 };

@@ -28,8 +28,6 @@ const isEditor = async (req, res, next) => {
         console.log(role);
         
         if (['admin', 'editor', 'super-admin'].includes(role)) {
-            console.log("qsdsqd");
-            
             return next();
         }
 

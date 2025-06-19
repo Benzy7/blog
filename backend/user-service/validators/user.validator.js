@@ -21,7 +21,7 @@ const registerSchema = Joi.object({
         'string.min': 'Password must be at least 6 characters',
         'any.required': 'Password is required'
     }),
-    dateOfBirth: Joi.date().iso().optional().messages({
+    dateOfBirth: Joi.date().iso().allow(null, '').optional().messages({
         'date.format': 'Date of birth must be a valid ISO date'
     })
 });

@@ -38,7 +38,15 @@ const getArticleById = async (req, res, next) => {
 
 const updateArticle = async (req, res, next) => {
     try {
-        const updated = await articleService.updateArticle(req.params.id, req.body, req.user);
+        const updatedData = { ...req.body };
+        
+        if (req.file) {
+          updatedData.image = `/uploads/${req.file.filename}`;
+        } else {
+          delete updatedData.image;
+        }
+            
+        const updated = await articleService.updateArticle(req.params.id, req.body);
         res.json(updated);
     } catch (err) {
         next(err);

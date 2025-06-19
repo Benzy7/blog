@@ -48,12 +48,11 @@ export class ArticleEditorComponent implements OnInit {
       });
     }
 
-    // If editing, set preview from existing article image
     const existingImage = this.articleForm.get('image')?.value;
     if (existingImage) {
       this.imagePreview = existingImage.startsWith('http')
         ? existingImage
-        : `http://localhost:3002/${existingImage}`;
+        : `http://localhost:3002/${existingImage}`; //TODO
     }
   }
 
@@ -63,7 +62,6 @@ export class ArticleEditorComponent implements OnInit {
     this.loading = true;
     this.articleService.getArticle(this.articleId).subscribe({
       next: (article) => {
-        // Check if user can edit this article
         if (!this.canEditArticle(article)) {
           this.router.navigate(['/']);
           return;
@@ -118,7 +116,6 @@ export class ArticleEditorComponent implements OnInit {
       this.articleForm.get('tags')?.setValue(tags);
     }
   }
-
   onSubmit(): void {
     if (this.articleForm.invalid) return;
 
@@ -126,35 +123,34 @@ export class ArticleEditorComponent implements OnInit {
     this.error = '';
 
     const formValue = this.articleForm.value;
-    const articleData = {
-      title: formValue.title,
-      content: formValue.content,
-      tags: formValue.tags,
-      image: formValue.image
-    };
+    const formData = new FormData();
 
-    if (this.isEditMode && this.articleId) {
-      this.articleService.updateArticle(this.articleId, articleData).subscribe({
-        next: (article) => {
-          this.router.navigate(['/articles', article._id]);
-        },
-        error: (err) => {
-          this.error = 'Failed to update article. Please try again.';
-          this.loading = false;
-        }
-      });
-    } else {
-      this.articleService.createArticle(articleData).subscribe({
-        next: (article) => {
-          this.router.navigate(['/articles', article._id]);
-        },
-        error: (err) => {
-          this.error = 'Failed to create article. Please try again.';
-          this.loading = false;
-        }
-      });
+    formData.append('title', formValue.title);
+    formData.append('content', formValue.content);
+    formValue.tags.forEach((tag: string) => {
+      formData.append('tags', tag);
+    });
+    if (this.selectedImageFile) {
+      formData.append('image', this.selectedImageFile);
     }
+
+    const request$ = this.isEditMode && this.articleId
+      ? this.articleService.updateArticle(this.articleId, formData)
+      : this.articleService.createArticle(formData);
+
+    request$.subscribe({
+      next: (article) => {
+        this.router.navigate(['/articles/view', article._id]);
+      },
+      error: () => {
+        this.error = this.isEditMode
+          ? 'Failed to update article. Please try again.'
+          : 'Failed to create article. Please try again.';
+        this.loading = false;
+      }
+    });
   }
+
 
   onImageSelected(event: Event): void {
     const fileInput = event.target as HTMLInputElement;

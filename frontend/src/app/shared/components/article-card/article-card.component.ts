@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Article } from '../../../core/models/article.model';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { ArticleService } from '../../../core/services/article.service';
 
 @Component({
   selector: 'app-article-card',
@@ -10,34 +11,54 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./article-card.component.css']
 })
 export class ArticleCardComponent {
-  @Input() article: Article|null = null;
+  @Input() article: Article | null = null;
   @Input() showActions = false;
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(
+    public authService: AuthService,
+    private readonly articleServie: ArticleService,
+    private readonly router: Router
+  ) { }
 
   canEdit(): boolean {
     if (!this.authService.isLoggedIn()) return false;
 
     const user = this.authService.getCurrentUser();
     return (
-      user!.role === 'admin' ||
+      user!.role.includes('admin') ||
       user!.role === 'editor' ||
       (user!.role === 'author' && this.article!.authorId === user!._id)
     );
   }
 
   canDelete(): boolean {
-    return this.authService.isLoggedIn() && this.authService.getCurrentUser()!.role === 'admin';
+    return this.authService.isLoggedIn() && this.authService.getCurrentUser()!.role.includes('admin');
+  }
+
+  viewArticle(): void {
+    this.router.navigate(['/articles/view', this.article!._id]);
   }
 
   editArticle(): void {
     this.router.navigate(['/articles/edit', this.article!._id]);
   }
 
+
+  //TODO
   deleteArticle(): void {
-    if (confirm('Are you sure you want to delete this article?')) {
-      // Implement delete functionality in parent component
+    if (!confirm('Êtes-vous sûr de vouloir supprimer cet article?')) {
+      return;
     }
+
+    this.articleServie.deleteArticle(this.article!._id).subscribe({
+      next: () => {
+        this.router.navigate(['/articles']);
+      },
+      error: (err) => {
+        alert("Échec de la suppression de l'article. Veuillez réessayer.");
+        console.error(err);
+      }
+    });
   }
 
   getTagClass(tag: string): string {
@@ -53,7 +74,7 @@ export class ArticleCardComponent {
 
   getImageUrl(imagePath?: string): string {
     return imagePath
-      ? `http://127.0.0.1:3002${imagePath}`
+      ? `http://localhost:3002${imagePath}`
       : 'assets/default-article.jpg'; //TODO
   }
 }

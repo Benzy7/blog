@@ -1,0 +1,38 @@
+<section class="container" *ngIf="article && article._id">
+  <div class="page-header">
+    <button class="btn btn-outline" routerLink="/articles">
+      <i class="fas fa-arrow-left"></i> Retour aux articles
+    </button>
+
+    <div *ngIf="canEdit" class="edit-actions">
+      <button class="btn btn-outline" [routerLink]="['/articles/edit', article._id]">
+        <i class="fas fa-edit"></i> Modifier
+      </button>
+    </div>
+  </div>
+
+  <article class="article-content">
+    <h1>{{ article.title }}</h1>
+
+    <div class="article-meta">
+      <span class="author">
+        <img [src]="'assets/default-avatar.png'" alt="Author avatar" class="avatar">
+        {{ article.author.username }}
+      </span>
+      <span class="date">{{ article.createdAt | date:'mediumDate' }}</span>
+      <div class="tags">
+        <span class="tag" *ngFor="let tag of article?.tags">{{ tag }}</span>
+      </div>
+    </div>
+
+    <div class="article-image" *ngIf="article.image">
+      <img [src]="getImageUrl(article.image)" alt="Article image">
+    </div>
+
+    <div class="article-body" [innerHTML]="article.content | markdown"></div>
+  </article>
+
+  <div *ngIf="article && article._id" class="comments-section">
+    <app-article-comments [articleId]="article._id"></app-article-comments>
+  </div>
+</section>

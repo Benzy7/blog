@@ -1,34 +1,38 @@
 const commentService = require('../services/comment.service');
 const articleService = require('../services/article.service');
-const axios = require('axios');
+const notifyAuthor = require('../utils/notif');
 
-// const notifyAuthor = async (comment) => {
-//     try {
-//         const author = await articleService.getArticleAuthor(comment.article).select('author');
-//         if (!author) return;
-
-//         await axios.post(
-//             process.env.NOTIF_SERVICE_URL + '/notify',
-//             {
-//                 userId: author,
-//                 comment
-//             }
-//         );
-//     } catch (err) {
-//         next(err);
-//     }
-// };
 
 const createComment = async (req, res, next) => {
     try {
-        const data = {
-            article: req.params.id,
-            author: req.user.id,
+        const articleId = req.params.id;
+        const userId = req.user.id;
+        
+        const author = await articleService.getArticleAuthor(articleId);
+        if (!author) {
+            return res.status(404).json({ message: 'Article not found' });
+        }
+
+        const comment = await commentService.createComment({
+            article: articleId,
+            author: userId,
             content: req.body.content,
             parent: req.body.parent || null
-        };
-        const comment = await commentService.createComment(data);
-        //notifyAuthor(comment);
+        });
+
+        if (author.toString() !== userId) {
+            await notifyAuthor({
+                userId: author.toString(),
+                type: 'new-comment',
+                message: 'New comment on your article',
+                payload: { 
+                    articleId: articleId,
+                    commentId: comment._id,
+                    commentor: userId 
+                }
+            });
+        }
+        
         res.status(201).json(comment);
     } catch (err) {
         next(err);

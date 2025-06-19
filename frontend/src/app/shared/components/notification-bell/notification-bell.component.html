@@ -1,0 +1,10 @@
+<div class="notification-icon" (click)="togglePanel()">
+  <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+  <i class="fas fa-bell"></i>
+
+  <div class="notification-panel" *ngIf="showPanel">
+    <div class="notification-item" *ngFor="let notif of notifications">
+      <div class="notif-type">{{ notif.type || 'Notification' }}</div>
+    </div>
+  </div>
+</div>

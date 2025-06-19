@@ -1,0 +1,71 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Bienvenue sur Notre Plateforme</h1>
+      <p>Découvrez, partagez et interagissez avec notre communauté</p>
+
+      <div class="cta-buttons" *ngIf="!isLoggedIn">
+        <a routerLink="/auth/login" class="btn btn-primary">Se connecter</a>
+        <a routerLink="/auth/register" class="btn btn-outline">S'inscrire</a>
+      </div>
+
+      <div class="user-actions" *ngIf="isLoggedIn">
+        <a routerLink="/articles/create" class="btn btn-primary">
+          <i class="fas fa-plus"></i> Créer un article
+        </a>
+        <a routerLink="/articles" class="btn btn-outline">
+          <i class="fas fa-book-open"></i> Voir les articles
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2>Pourquoi nous choisir ?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <i class="fas fa-users"></i>
+        <h3>Communauté active</h3>
+        <p>Rejoignez une communauté dynamique et bienveillante</p>
+      </div>
+
+      <div class="feature-card">
+        <i class="fas fa-pencil-alt"></i>
+        <h3>Partage facile</h3>
+        <p>Publiez vos idées et connaissances en quelques clics</p>
+      </div>
+
+      <div class="feature-card">
+        <i class="fas fa-comments"></i>
+        <h3>Échanges enrichissants</h3>
+        <p>Discutez et commentez les publications</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works" *ngIf="!isLoggedIn">
+    <h2>Comment ça marche ?</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-number">1</span>
+        <h3>Créez votre compte</h3>
+        <p>Inscription rapide et gratuite</p>
+      </div>
+
+      <div class="step">
+        <span class="step-number">2</span>
+        <h3>Explorez le contenu</h3>
+        <p>Découvrez des articles variés</p>
+      </div>
+
+      <div class="step">
+        <span class="step-number">3</span>
+        <h3>Participez</h3>
+        <p>Commentez et interagissez</p>
+      </div>
+    </div>
+  </section>
+
+
+</div>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../../core/services/auth.service';
+import { User } from '../../../../core/models/user.model';
 
 @Component({
   selector: 'app-header',
@@ -9,11 +10,12 @@ import { AuthService } from '../../../../core/services/auth.service';
 })
 export class HeaderComponent {
   showDropdown = false;
+  currentUser: User | null = null;
 
-  constructor(public auth: AuthService) {}
-
-  toggleDropdown() {
-    this.showDropdown = !this.showDropdown;
+  constructor(public auth: AuthService) {
+    this.auth.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
   }
 
   logout() {

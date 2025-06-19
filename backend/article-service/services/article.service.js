@@ -57,12 +57,16 @@ const getArticleAuthor = async (id) => {
     return article ? article.author : null
 };
 
-const updateArticle = async (id, data, user) => {
-    const article = await Article.findById(id);
-    if (!article) throw new Error('Article not found');
+const updateArticle = async (id, data) => {
+    console.log(data);
+    
+    const article = await Article.findByIdAndUpdate(id, data, { new: true });
 
-    Object.assign(article, data);
-    return article.save();
+    if (!article) {
+        throw new Error('Article not found');
+    }
+
+    return article;
 };
 
 const deleteArticle = (id) => Article.findByIdAndDelete(id);

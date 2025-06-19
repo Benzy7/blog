@@ -8,10 +8,10 @@ const getCommentsByArticle = async (articleId) => {
     const comments = await Comment.find({ article: articleId }).sort({ createdAt: -1 }).lean();
 
     const map = {};
-    comments.forEach(c => { c.children = []; map[c._id] = c; });
+    comments.forEach(c => { c.replies = []; map[c._id] = c; });
     const roots = [];
     comments.forEach(c => {
-        if (c.parent) map[c.parent]?.children.push(c);
+        if (c.parent) map[c.parent]?.replies.push(c);
         else roots.push(c);
     });
     return roots;

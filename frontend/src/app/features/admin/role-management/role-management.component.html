@@ -48,8 +48,8 @@
             </td>
             <td>{{ user.email }}</td>
             <td>
-              <span class="badge" [ngClass]="getRoleBadgeClass(user.role)">
-                {{ getRoleBadgeLabel(user.role) }}
+              <span class="badge" [ngClass]="getRoleBadgeClass(user.originalRole!)">
+                {{ getRoleBadgeLabel(user.originalRole!) }}
               </span>
             </td>
             <td>

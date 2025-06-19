@@ -11,7 +11,7 @@ const upload = require('../middlewares/upload.middleware');
 router.post('/', isAuthenticated, isWriter, upload.single('image'), validate(createArticleSchema), articleController.createArticle);
 router.get('/', isAuthenticated, articleController.getAllArticles);
 router.get('/:id', isAuthenticated, articleController.getArticleById);
-router.put('/:id', isAuthenticated, isEditor, validate(updateArticleSchema), articleController.updateArticle);
+router.put('/:id', isAuthenticated, isEditor, upload.single('image'), validate(updateArticleSchema), articleController.updateArticle);
 router.delete('/:id', isAuthenticated, isAdmin, articleController.deleteArticle);
 
 module.exports = router;

@@ -1,0 +1,28 @@
+<div class="comment" [class.reply]="comment.parent">
+  <div class="comment-header">
+    <img [src]="comment.author.avatar || 'assets/default-avatar.png'" alt="Avatar">
+    <div>
+      <strong>{{ comment.author.username }}</strong>
+      <span>{{ comment.createdAt | date:'MMM d, y, H:mm' }}</span>
+    </div>
+  </div>
+
+  <div class="comment-content">{{ comment.content }}</div>
+
+  <div class="comment-actions">
+    <button (click)="toggleReply()">Répondre</button>
+  </div>
+
+  <div class="reply-form" *ngIf="showReplyForm">
+    <textarea [(ngModel)]="replyContent" placeholder="Écrivez votre réponse..."></textarea>
+    <div>
+      <button (click)="addReply()">Répondre</button>
+      <button (click)="toggleReply()">Annuler</button>
+    </div>
+  </div>
+
+  <div class="replies" *ngIf="comment.replies?.length">
+    <app-article-comment *ngFor="let reply of comment.replies" [comment]="reply" [articleId]="articleId">
+    </app-article-comment>
+  </div>
+</div>

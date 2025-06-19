@@ -17,9 +17,9 @@ export class RoleManagementComponent implements OnInit {
 
   roleOptions = [
     { value: 'reader', label: 'Reader' },
-    { value: 'author', label: 'Author' },
-    { value: 'editor', label: 'Editor' },
-    { value: 'admin', label: 'Admin' },
+    { value: 'author', label: 'Rédacteur' },
+    { value: 'editor', label: 'Éditeur' },
+    { value: 'admin', label: 'Lecteur' },
   ];
 
   constructor(private userService: UserService) { }
@@ -32,13 +32,15 @@ export class RoleManagementComponent implements OnInit {
     this.loading = true;
     this.userService.getUsers().subscribe({
       next: (users: any) => {
-        this.users = users;
+        this.users = users.map((u: User) => ({
+          ...u,
+          originalRole: u.role
+        }));
         this.loading = false;
       },
       error: (err) => {
         this.error = 'Failed to load users. Please try again later.';
         this.loading = false;
-        console.error(err);
       }
     });
   }
@@ -63,7 +65,6 @@ export class RoleManagementComponent implements OnInit {
         this.error = 'Failed to update user role. Please try again.';
         this.saving = false;
         this.savingUserId = null;
-        console.error(err);
       }
     });
   }
@@ -80,9 +81,9 @@ export class RoleManagementComponent implements OnInit {
   getRoleBadgeLabel(role: string): string {
     switch (role) {
       case 'admin': return 'Admin';
-      case 'editor': return 'Editor';
-      case 'author': return 'Author';
-      default: return 'Reader';
+      case 'editor': return 'Éditeur';
+      case 'author': return 'Rédacteur';
+      default: return 'Lecteur';
     }
   }
 

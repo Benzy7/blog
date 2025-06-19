@@ -9,7 +9,7 @@ const createArticleSchema = Joi.object({
     'any.required': 'Content is required',
     'string.empty': 'Content is required'
   }),
-  image: Joi.string().uri().optional().messages({
+  image: Joi.string().uri().allow(null, '').optional().messages({
     'string.uri': 'Image must be a valid URL'
   }),
   tags: Joi.array().items(Joi.string()).optional().messages({
